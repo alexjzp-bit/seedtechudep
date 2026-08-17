@@ -1,0 +1,171 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Design tokens — SeedTech UDEP 2026
+   Los azules provienen del logo oficial SeedTech (#0094FF / #00467A),
+   el navy institucional de la Universidad de Piura (#004077) y el
+   amarillo de acento del HUB UDEP (#FFCB08).
+   ============================================================ */
+@theme {
+  /* Azul brillante SeedTech */
+  --color-seed-50: #eef8ff;
+  --color-seed-100: #d9efff;
+  --color-seed-200: #b9e2ff;
+  --color-seed-300: #86d0ff;
+  --color-seed-400: #4cb6ff;
+  --color-seed-500: #0094ff;
+  --color-seed-600: #0077db;
+  --color-seed-700: #005eb0;
+  --color-seed-800: #004f91;
+  --color-seed-900: #00467a;
+
+  /* Navy institucional / fondos profundos */
+  --color-navy-500: #005b96;
+  --color-navy-600: #004b80;
+  --color-navy-700: #004077;
+  --color-navy-800: #003b70;
+  --color-navy-900: #002850;
+  --color-navy-950: #001b3f;
+  --color-navy-975: #001129;
+
+  /* Acentos */
+  --color-hub-blue: #3882b1;
+  --color-hub-yellow: #ffcb08;
+
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display:
+    'Poppins', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --radius-4xl: 2rem;
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-float-slow: float-slow 9s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* deja aire bajo la navbar sticky al saltar a una sección */
+    scroll-padding-top: 6.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white font-sans text-slate-700 antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-navy-950;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-seed-500;
+  }
+
+  /* Respeta la preferencia de movimiento reducido del sistema */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ============================================================
+   Utilidades propias
+   ============================================================ */
+@utility text-gradient-seed {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-seed-300) 0%,
+    var(--color-seed-500) 45%,
+    #7ee0ff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Retícula técnica sutil para fondos oscuros */
+@utility bg-grid-tech {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Retícula para fondos claros */
+@utility bg-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(0 148 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0 148 255 / 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Puntos conectados / nodos */
+@utility bg-dots-tech {
+  background-image: radial-gradient(rgb(0 148 255 / 0.18) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Oculta la barra de scroll del carrusel del cronograma */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Reveal on scroll: el componente <Reveal /> alterna `reveal-init` → `reveal-shown`.
+   `reveal-shown` usa !important porque debe ganarle siempre al estado inicial. */
+@utility reveal-init {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@utility reveal-shown {
+  opacity: 1 !important;
+  transform: none !important;
+}
